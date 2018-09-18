@@ -1,0 +1,22 @@
+
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+
+object TestSpark {
+  def main(args: Array[String]) {
+    System.setProperty("hadoop.home.dir", "C:\\MyData\\Scala_WorkSpacePersonal\\HackerEarth\\TestSpark2.11\\")
+    val conf = new SparkConf().setAppName("TestSpark").setMaster("local").set("hadoop.home.dir","C:\\MyData\\Softwares\\HadoopBinaries\\")
+    val sc = new SparkContext(conf)
+    
+    var rdd = sc.textFile("2015-12-12.csv", 2)
+    rdd=rdd.map(x=>x.replace("\"","").replace(",", "|"))
+    
+    rdd=rdd.filter(x=> x.contains("NA"))
+    //rdd.take(rdd.count.toInt).foreach(x=>println(x))
+    val spark=new SQLContext(sc)
+   
+    var df=spark.read.csv("2015-12-12.csv")
+    df.show(2)
+  }
+}
