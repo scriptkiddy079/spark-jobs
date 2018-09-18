@@ -12,5 +12,6 @@ This includes the set up of spark 2.3.0 with full spark libraries dependencies i
 6.Add the class file in src/main/scala
 7. Download winutils.exe(Hadoop binary folder) and add it to bin(create new folder with this name) folder of your project.
  *Must check compatibility of spark with Hadoop Binary.
+8.*Scala version must be 2.11(dynamic)
 
 
