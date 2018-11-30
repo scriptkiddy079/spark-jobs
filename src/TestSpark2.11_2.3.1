@@ -6,17 +6,52 @@ import org.apache.spark.sql.SQLContext
 object TestSpark {
   def main(args: Array[String]) {
     System.setProperty("hadoop.home.dir", "C:\\MyData\\Scala_WorkSpacePersonal\\HackerEarth\\TestSpark2.11\\")
-    val conf = new SparkConf().setAppName("TestSpark").setMaster("local").set("hadoop.home.dir","C:\\MyData\\Softwares\\HadoopBinaries\\")
+    val conf = new SparkConf().setAppName("TestSpark").setMaster("local")
     val sc = new SparkContext(conf)
     
     var rdd = sc.textFile("2015-12-12.csv", 2)
     rdd=rdd.map(x=>x.replace("\"","").replace(",", "|"))
     
     rdd=rdd.filter(x=> x.contains("NA"))
-    //rdd.take(rdd.count.toInt).foreach(x=>println(x))
-    val spark=new SQLContext(sc)
+    /* For printing in Rdd */
    
-    var df=spark.read.csv("2015-12-12.csv")
-    df.show(2)
+    rdd.take(rdd.count.toInt).foreach(x=>println(x))
+    
+    
+    /* DataFrame starts:*/
+  
+    
+    val spark=new SQLContext(sc)
+    //creating Data Frame with header
+    var df2=spark.read.option("header", "true").csv("2015-12-12.csv")
+    import spark.implicits._
+    
+    df2.show(20)
+    //For printing schema
+    df2.printSchema()
+    
+    //For Selecting the distinct country,package and then order by country alphabetically
+    
+   (df2.select("country","package").distinct().orderBy("country")).show(10)
+    
+    //Importing for case clause
+    import org.apache.spark.sql.functions._
+    //Use of case clause
+    
+    df2.withColumn("r_arch", when(($"r_arch"==="NA"),"_").otherwise($"r_arch")).withColumn("r_os", when($"r_os"==="NA","_").otherwise($"r_os")).withColumn("r_version", when($"r_version"==="NA","_").otherwise($"r_version")).show(20)
+    
+    var df=spark.read.option("header", "true").option("inferSchema", "true").csv("cogsley_sales.csv")
+    
+    import org.apache.spark.sql.types._
+    
+    df=df.withColumn("SaleAmount", df("SaleAmount").cast(IntegerType))
+    
+    var df1=df.select($"CustomerName",$"SaleAmount").groupBy("CustomerName").sum("SaleAmount").select($"CustomerName",$"sum(SaleAmount)".alias("Total_Amount")).orderBy(desc("CustomerName"))
+    df1.show(10)
+    df1.coalesce(1).write.option("header", "true").csv("output") 
+    
+   
+
   }
+
 }
