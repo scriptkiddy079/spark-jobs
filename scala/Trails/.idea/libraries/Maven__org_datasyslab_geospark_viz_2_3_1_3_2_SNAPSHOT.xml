@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.datasyslab:geospark-viz_2.3:1.3.2-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/datasyslab/geospark-viz_2.3/1.3.2-SNAPSHOT/geospark-viz_2.3-1.3.2-20200731.005323-2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/datasyslab/geospark-viz_2.3/1.3.2-SNAPSHOT/geospark-viz_2.3-1.3.2-20200731.005323-2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/datasyslab/geospark-viz_2.3/1.3.2-SNAPSHOT/geospark-viz_2.3-1.3.2-20200731.005323-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
